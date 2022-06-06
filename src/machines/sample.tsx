@@ -1,39 +1,50 @@
 import { createMachine, assign } from 'xstate';
 
-interface Context {
-  retries: number;
-}
-
-const fetchMachine = createMachine<Context>({
-  id: 'fetch',
-  initial: 'idle',
+const authMachine = createMachine<{
+  user: any
+}>({
+  id: 'auth',
   context: {
-    retries: 0
+    user: null
   },
+  initial: 'idle',
   states: {
     idle: {
       on: {
-        FETCH: 'loading'
+        CHECK_AUTH: 'loading'
       }
     },
     loading: {
       on: {
-        RESOLVE: 'success',
-        REJECT: 'failure'
+        LOGGED_IN: 'logged_in',
+        NOT_LOGGED_IN: 'not_logged_in'
       }
     },
-    success: {
-      type: 'final'
+    logged_in: {
+      on: {
+        GET_SCORE: 'loading_score',
+      }
     },
-    failure: {
+    loading_score: {
+      on: {
+        SUCCESS: 'load_score_success',
+        FAIL: 'load_score_fail'
+      }
+    },
+    load_score_fail: {
       on: {
         RETRY: {
+          target: 'loading_score'
+        }
+      }
+    },
+    load_score_success: {},
+    not_logged_in: {
+      on: {
+        LOGIN: {
           target: 'loading',
-          actions: assign({
-            retries: (context, event) => context.retries + 1
-          })
         }
       }
     }
   }
-});
+})
