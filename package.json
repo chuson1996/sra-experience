@@ -14,10 +14,15 @@
     "build": "run-p type-check build-only",
     "preview": "vite preview --port 4173",
     "build-only": "vite build",
-    "type-check": "vue-tsc --noEmit"
+    "type-check": "vue-tsc --noEmit",
+    "css": "tailwindcss -i ./src/input.css -o ./src/assets/output.css --postcss postcss.config.js --watch"
   },
   "dependencies": {
+    "autoprefixer": "^10.4.7",
     "magic-sdk": "^8.1.1",
+    "postcss": "^8.4.14",
+    "postcss-partial-process": "^2.0.0",
+    "postcss-prepend-selector": "^0.3.1",
     "query-string": "^7.1.1",
     "vue": "^3.2.36",
     "xstate": "^4.32.1"

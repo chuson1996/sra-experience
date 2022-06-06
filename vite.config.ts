@@ -29,6 +29,11 @@ export default defineConfig({
         // globals: {
         //   vue: 'Vue'
         // }
+        assetFileNames: (assetInfo) => {
+          if (assetInfo.name == 'style.css')
+            return 'imin.lol.style.css';
+          return assetInfo.name || '__error';
+        },
       }
     }
   }

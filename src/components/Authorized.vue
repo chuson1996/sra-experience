@@ -1,5 +1,23 @@
 <script setup lang="ts">
-let showMenu = false;
+import { Magic } from 'magic-sdk';
+import { logout } from './UserWrapper';
+import queryString from 'query-string';
+
+const props = defineProps<{
+  user: {
+    referral_code: string
+  }
+}>()
+
+const href = window.location.href;
+const queryObj = queryString.parse(window.location.search);
+queryObj.ref = props.user.referral_code;
+
+const referralLink = queryString.stringifyUrl({
+  url: href,
+  query: queryObj
+})
+
 </script>
 
 <template>
@@ -14,7 +32,11 @@ let showMenu = false;
           <span class="inline md:block">You're</span> <span
             class="relative mt-2 text-transparent bg-clip-text bg-gradient-to-br from-indigo-600 to-indigo-500 md:inline-block">In!</span>
         </h1>
-        <div class="mx-auto mt-5 text-gray-500 md:mt-12 md:max-w-lg md:text-center lg:text-lg">Now share to your
+        <div class="mx-auto mt-5 text-gray-500 md:mt-12 md:max-w-lg md:text-center lg:text-lg">Your referral code is:</div>
+        <div class="mx-auto md:max-w-lg md:text-center text-2xl">{{ user.referral_code }}</div>
+
+        <div class="mx-auto md:max-w-lg md:text-center text-2xl">{{ referralLink }}</div>
+        <div class="mx-auto mt-5 text-gray-500 md:mt-12 md:max-w-lg md:text-center lg:text-lg">Now share with your
           friends, mom and dad</div>
         <div class="flex flex-col items-center mt-12 text-center">
           <span class="relative inline-flex w-full md:w-auto">
@@ -25,42 +47,11 @@ let showMenu = false;
               class="absolute top-0 right-0 px-2 py-1 -mt-3 -mr-6 text-xs font-medium leading-tight text-white bg-green-400 rounded-full">only
               $15/mo</span>
           </span>
-          <a href="#" class="mt-3 text-sm text-indigo-500">Learn More</a>
+          <a href="#" @click="logout" class="mt-3 text-sm text-indigo-500">Logout</a>
         </div>
       </div>
       <!-- End Main Hero Content -->
 
     </div>
   </section>
-
-  <!-- Section 2 -->
-  <section class="bg-white pt-7 pb-14">
-    <div class="container px-8 mx-auto sm:px-12 lg:px-20">
-      <h1 class="text-sm font-bold tracking-wide text-center text-gray-800 uppercase mb-7">Trusted by top-leading
-        companies.</h1>
-      <div class="grid items-center justify-center grid-cols-12 gap-y-8">
-        <div class="flex items-center justify-center col-span-6 sm:col-span-4 md:col-span-3 xl:col-span-2">
-          <img src="https://cdn.devdojo.com/tails/images/disney-plus.svg" alt="Disney Plus"
-            class="block object-contain h-12">
-        </div>
-        <div class="flex items-center justify-center col-span-6 sm:col-span-4 md:col-span-3 xl:col-span-2">
-          <img src="https://cdn.devdojo.com/tails/images/google.svg" alt="Google" class="block object-contain h-9">
-        </div>
-        <div class="flex items-center justify-center col-span-6 sm:col-span-4 md:col-span-3 xl:col-span-2">
-          <img src="https://cdn.devdojo.com/tails/images/hubspot.svg" alt="Hubspot" class="block object-contain h-9">
-        </div>
-        <div class="flex items-center justify-center col-span-6 sm:col-span-4 md:col-span-3 xl:col-span-2">
-          <img src="https://cdn.devdojo.com/tails/images/youtube.svg" alt="Youtube"
-            class="block object-contain h-7 lg:h-8">
-        </div>
-        <div class="flex items-center justify-center col-span-6 sm:col-span-4 md:col-span-6 xl:col-span-2">
-          <img src="https://cdn.devdojo.com/tails/images/slack.svg" alt="Slack" class="block object-contain h-9">
-        </div>
-        <div class="flex items-center justify-center col-span-6 sm:col-span-4 md:col-span-6 xl:col-span-2">
-          <img src="https://cdn.devdojo.com/tails/images/shopify.svg" alt="Shopify" class="block object-contain h-9">
-        </div>
-      </div>
-    </div>
-  </section>
-
 </template>

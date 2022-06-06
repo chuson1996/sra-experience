@@ -1,83 +1,51 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-import TallyForm from './components/TallyForm.vue'
+import Signup from './components/Signup.vue'
+import Authorized from './components/Authorized.vue'
+import { reactive } from 'vue'
+import LoadingPlaceholder from './components/LoadingPlaceholder.vue'
+import { checkSignup, userRef } from './components/UserWrapper';
+// import TheWelcome from './components/TheWelcome.vue'
+
+const state = reactive<{
+  auth: {
+    loading: boolean
+    user: any
+    error: any
+  }
+}>({
+  auth: {
+    loading: true,
+    user: null,
+    error: null
+  }
+});
+
+(async () => {
+  state.auth.loading = true;
+  checkSignup()
+    .then((user) => {
+      state.auth.loading = false;
+    })
+})()
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper text-lg">
-      <HelloWorld msg="No I did it!" />
+  <div class="tw">
+    <div v-if="state.auth.loading === true">
+      <LoadingPlaceholder/>
     </div>
-  </header>
-
-  <main>
-
-    <TallyForm :form_id="'3q4GRG'"/>
-  </main>
+    <div v-else>
+      <div v-if="!userRef.user">
+        <Signup msg="No I did it!" />
+      </div>
+      <div v-else-if="userRef.user">
+        <Authorized :user="userRef.user"/>
+      </div>
+    </div>
+  </div>
 </template>
 
 <style>
 @import './assets/base.css';
 @import './assets/output.css';
-
-#sra-experience {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-
-  font-weight: normal;
-}
-
-header {
-  line-height: 1.5;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-a,
-.green {
-  text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
-}
-
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
-}
-
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
-
-  #sra-experience {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
-  }
-
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-}
 </style>
