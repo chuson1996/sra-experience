@@ -1,4 +1,4 @@
-const SERVER_URL = 'http://localhost:4621';
+const SERVER_URL = 'https://sra-admin.herokuapp.com';
 
 export type Reward = {
   id: string
