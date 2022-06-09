@@ -4,6 +4,7 @@ import Authorized from './components/Authorized.vue'
 import { reactive } from 'vue'
 import LoadingPlaceholder from './components/LoadingPlaceholder.vue'
 import { checkSignup, userRef } from './components/UserWrapper';
+import IconRaceByLoader from './components/icons/IconRaceByLoader.vue';
 // import TheWelcome from './components/TheWelcome.vue'
 
 const state = reactive<{
@@ -30,9 +31,17 @@ const state = reactive<{
 </script>
 
 <template>
-  <div class="tw">
+  <div class="tw" v-auto-animate>
+    <div class="mx-auto my-4 grid place-content-center italic" v-if="userRef.status === 'fetching_ml_user'">
+      Preparing a birthday cake for you...
+    </div>
+    <div class="mx-auto my-4 grid place-content-center italic" v-if="userRef.status === 'fetching_campaign'">
+      Never mind, it's not your birthday yet. Fetching campaign now...
+    </div>
     <div v-if="state.auth.loading === true">
-      <LoadingPlaceholder/>
+      <div class="mx-auto my-4 grid place-content-center">
+        <IconRaceByLoader class="w-40"/>
+      </div>
     </div>
     <div v-else>
       <div v-if="!userRef.user">

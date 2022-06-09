@@ -1,14 +1,12 @@
 <template>
-  <button :disabled="loginDisabled" class="w-full px-3 py-4 font-medium text-white bg-blue-600 rounded-lg disabled:cursor-not-allowed disabled:opacity-20 hover:bg-blue-700 shadow-lg shadow-blue-500/50" @click="openForm">Sign me in</button>
+  <button :disabled="loginDisabled" class="w-full px-3 py-4 font-medium text-white bg-blue-600 rounded-lg disabled:cursor-not-allowed disabled:opacity-20 hover:bg-blue-700 shadow-lg shadow-blue-500/50 border-0" @click="openForm">{{ cmsContent.sign_up_button_text }}</button>
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { Magic } from 'magic-sdk';
 import queryString from 'query-string';
 import { campaignID, login } from './UserWrapper';
-
-const m = new Magic('pk_live_153CD26CD773F001'); // ✨
+import {cmsContent} from '@/utils/cms';
 
 const Tally = (window as any).Tally;
 

@@ -1,4 +1,5 @@
 import { createApp } from 'vue'
 import App from './App.vue'
+import { autoAnimatePlugin } from '@formkit/auto-animate/vue'
 
-createApp(App).mount('#sra-experience')
+createApp(App).use(autoAnimatePlugin).mount('#sra-experience')
